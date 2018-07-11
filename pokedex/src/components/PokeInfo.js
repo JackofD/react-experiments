@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Pokedex from 'pokedex-promise-v2';
 
 class PokeInfo extends Component {
   constructor(){
@@ -10,12 +11,13 @@ class PokeInfo extends Component {
     };
   }
   componentDidUpdate(prevProps){
+    const P = new Pokedex();
     if(this.props.pokeId !== prevProps.pokeId){
-      const pokeInfoPromise = fetch(`http://pokeapi.co/api/v2/pokemon-species/${this.props.pokeId}/`);
+      //const pokeInfoPromise = fetch(`http://pokeapi.co/api/v2/pokemon-species/${this.props.pokeId}/`);
 
-      pokeInfoPromise
+      P.resource(`/api/v2/pokemon-species/${this.props.pokeId}/`)
       .then(pokeInfo => {
-        const pokemonInfo = pokeInfo.json();
+        const pokemonInfo = pokeInfo;
         return pokemonInfo;
       }).then(pokemonInfo => {
         this.setState({pokeInfo: pokemonInfo});
@@ -31,10 +33,11 @@ class PokeInfo extends Component {
     flavourArray.map(entry => {
       if(entry.language.name === 'en'){
         var entryText = entry.flavor_text;
-        console.log(entryText);
         this.setState({flavour: entryText});
       }
+      return entryText;
     })
+
   }
 
   render(){

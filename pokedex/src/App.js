@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import Pokedex from 'pokedex-promise-v2';
+import Pokedex from 'pokedex-promise-v2';
 import PokeSprite from './components/PokeSprite';
 import PokeInfo from './components/PokeInfo';
 class App extends Component {
@@ -15,12 +15,13 @@ class App extends Component {
   }
 
   componentDidMount(){
+    const P = new Pokedex();
     let idNum = (Math.floor(Math.random() * (Math.floor(802) - Math.ceil(1)) + 1));
-    const pokePromise = fetch(`http://pokeapi.co/api/v2/pokemon/${idNum}/`);
+    //const pokePromise = fetch(`http://pokeapi.co/api/v2/pokemon/${idNum}/`);
 
-    pokePromise
+    P.resource(`/api/v2/pokemon/${idNum}/`)
     .then(pokedata => {
-      const pokemonData = pokedata.json();
+      const pokemonData = pokedata;
       return pokemonData;
     }).then(pokemonData => {
       this.setState({pokeId: idNum, pokemon: pokemonData, pokeSprite: pokemonData.sprites.front_default});
