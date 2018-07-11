@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 //import Pokedex from 'pokedex-promise-v2';
 import PokeSprite from './components/PokeSprite';
+import PokeInfo from './components/PokeInfo';
 class App extends Component {
 
   constructor(){
     super();
 
     this.state = {
+      pokeId: '',
       pokemon: {},
       pokeSprite: ''
     };
@@ -15,13 +17,15 @@ class App extends Component {
   componentDidMount(){
     let idNum = (Math.floor(Math.random() * (Math.floor(802) - Math.ceil(1)) + 1));
     const pokePromise = fetch(`http://pokeapi.co/api/v2/pokemon/${idNum}/`);
+
     pokePromise
     .then(pokedata => {
       const pokemonData = pokedata.json();
       return pokemonData;
     }).then(pokemonData => {
-      this.setState({pokemon: pokemonData, pokeSprite: pokemonData.sprites.front_default});
+      this.setState({pokeId: idNum, pokemon: pokemonData, pokeSprite: pokemonData.sprites.front_default});
     }).catch(err => console.error('There was an error: '+err));
+
   }
 
 
@@ -34,10 +38,12 @@ class App extends Component {
     return (
       <div className="App">
         <div style={centered} className="App-intro">
-          Pokedata will show up here... eventually
+          Who's that pokemon?!
           <br /><br />
           <PokeSprite url={this.state.pokeSprite} />
-          <div>{this.state.pokemon.name}</div>
+          <div>{this.state.pokemon.name} - {this.state.pokeId}</div>
+          <br />
+          <PokeInfo pokeId={this.state.pokeId} />
         </div>
       </div>
     );
