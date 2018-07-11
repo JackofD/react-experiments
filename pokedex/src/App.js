@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 //import Pokedex from 'pokedex-promise-v2';
+import PokeSprite from './components/PokeSprite';
 class App extends Component {
 
   constructor(){
@@ -20,17 +21,22 @@ class App extends Component {
       return pokemonData;
     }).then(pokemonData => {
       this.setState({pokemon: pokemonData, pokeSprite: pokemonData.sprites.front_default});
-    }).catch(err => console.log(err));
+    }).catch(err => console.error('There was an error: '+err));
   }
 
-  render() {
 
+  render() {
+    const centered = {
+      width: "300px",
+      margin: "0 auto",
+      textAlign: "center"
+    }
     return (
       <div className="App">
-        <div className="App-intro">
+        <div style={centered} className="App-intro">
           Pokedata will show up here... eventually
           <br /><br />
-          <img src={this.state.pokeSprite} alt={this.state.pokeSprite} />
+          <PokeSprite url={this.state.pokeSprite} />
           <div>{this.state.pokemon.name}</div>
         </div>
       </div>
